@@ -1,0 +1,23 @@
+{
+  "name": "vue-frame-crm",
+  "version": "1.0.0",
+  "description": "vue components for crm system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HongYangHT/vue-frame-crm.git"
+  },
+  "keywords": [
+    "vue",
+    "vue-component"
+  ],
+  "author": "samhong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HongYangHT/vue-frame-crm/issues"
+  },
+  "homepage": "https://github.com/HongYangHT/vue-frame-crm#readme"
+}
