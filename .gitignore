@@ -1,0 +1,9 @@
+node_modules/
+dist
+.vscode
+.idea
+.DS_Store
+dist/
+npm-debug.log
+/lib/
+test/coverage
