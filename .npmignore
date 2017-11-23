@@ -8,3 +8,4 @@ npm-debug.log
 src/
 !src/locale/lang
 build/
+package.json

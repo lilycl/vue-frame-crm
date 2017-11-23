@@ -1,6 +1,6 @@
 import Frame from './frame'
 import * as route from './route'
-import * as http from './http'
+import * as httpHandle from './http'
 
 const TFrame = function (Vue, opts = {}) {
   Vue.component(Frame.name, Frame)
@@ -13,5 +13,5 @@ if (typeof window !== 'undefined' && window.Vue) {
 export {
   TFrame,
   route,
-  http
+  httpHandle
 }

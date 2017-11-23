@@ -19,7 +19,7 @@ export function beforeEach (to, from, next, authorization, cb) {
         /**
          *  这里需要去请求token的值
          */
-        cb(code, state, next)
+        cb(code, state, next, sessionStorage, uuid(6, 16))
       } else {
         let msg = {
           client_id: authorization.client_id,
