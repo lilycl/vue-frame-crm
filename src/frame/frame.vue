@@ -153,7 +153,7 @@
 					</div>
 				</div>
     	</div>
-    	<div class="slipbox__container">
+    	<div class="slipbox__container" v-clickout-side="handleClickoutSide">
 	    	<div class="slipbox__content" :class="[{'close': hideSlip}]">
 	    		<div class="slipbox__close" @click="hideSlipbox">
 	    			<a href="javascript:;" target="_self"><t-icon type="close"></t-icon></a>
@@ -174,6 +174,7 @@
 	</div>
 </template>
 <script>
+	import ClickoutSide from './clickoutside.js'
 	export default {
 		name: 'TFrame',
 		props: {
@@ -232,6 +233,9 @@
         accordion: true
 			}
 		},
+		directives: {
+			ClickoutSide
+		},
 		methods: {
 			closeMenuOnMinWin () {
 				this.isOpenOnMinWin = true
@@ -267,6 +271,31 @@
 			},
 			hideSlipbox () {
 				this.hideSlip = true
+			},
+			_ischild (child) {
+	      while (child !== undefined && child !== null && child.tagName.toUpperCase() !== 'BODY') {
+	        if (child === this.$el) {
+	          return true
+	        }
+	        child = child.parentNode
+	      }
+	      return false
+	    },
+	    _isChildNode (child, parent) {
+	      while (child !== undefined && child !== null && child.tagName.toUpperCase() !== 'BODY') {
+	        if (child === this.$el.getElementsByClassName(parent)[0]) {
+	          return true
+	        }
+	        child = child.parentNode
+	      }
+	      return false
+	    },
+			handleClickoutSide (e) {
+				if (this._ischild(e.target) && (!e.target.classList.contains('slipbox__content') || !this._isChildNode(e.target, 'slipbox__content'))) {
+	        this.hideSlipbox()
+	        return true
+	      }
+	      return false
 			}
 		},
 		mounted () {
