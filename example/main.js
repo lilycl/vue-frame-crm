@@ -3,14 +3,14 @@ import Vue from 'vue'
 import taurus from 'aid-taurus-desktop'
 
 // import TFrame from '../src/frame'
-// import { TFrame } from '../src'
+import { TFrame } from '../src'
 
-import { TFrame } from '../lib/frame.js'
+// import { TFrame } from '../lib/frame.js'
 import App from './app.vue'
 
 import router from './routers'
 
-require('../lib/frame.css')
+// require('../lib/frame.css')
 
 Vue.use(taurus)
 

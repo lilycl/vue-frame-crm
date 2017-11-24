@@ -19,7 +19,7 @@
       		<t-icon type="menu" class="text-xxl text-black" @click.native="openOrClose" title="收起菜单"></t-icon>
       	</a>
       </div>
-			<div :class="['layout-menu', {'menu--folded': isOpen === false}, {'menu--fold--show': clientWidth > 1200}]">
+			<div :class="['layout-menu', {'menu--folded': isOpen === false}, {'menu--fold--show': clientWidth > 1200}, {'menu--fold--min': clientWidth <= 1199}]">
 				<slot name="frame-menu">
 					<t-menu
 						type="light"
@@ -29,72 +29,74 @@
             :class="[{'menu--folded': isOpen === false && clientWidth > 1200}]"
             @on-select="hdMenuClick"
             ref="sidebarMenu">
-							<template v-for="(item1, x) in menuList">
+							<template v-for="(item1, x) in treeData">
 								<t-submenu :name="x" v-if="item1.children && item1.children.length">
 									<template slot="title">
-										<t-icon :type="item1.iconType"></t-icon>
-						        <router-link :to="item1.path" v-if="item1.path">
-				            	<span class="sub-text">{{item1.name}}</span>
+										<t-icon :type="item1.iconType" v-if="item1.iconType"></t-icon>
+										<t-avatar size="sm" bg-state="success" :text="item1.rightTag" :dot="false" v-else></t-avatar>
+						        <router-link :to="{ path: item1.menuUrl}" v-if="item1.rightTag === tag && item1.menuUrl">
+				            	<span class="sub-text">{{item1.menuName}}</span>
 						        </router-link>
-						        <a :href="item1.link" target="_blank" v-else-if="item1.link">
-						        	<span class="sub-text">{{item1.name}}</span>
+						        <a :href="item1.rootUrl + item1.rootUrl" target="_blank" v-else-if="item1.rootUrl && item1.menuUrl && item1.rightTag !== tag">
+						        	<span class="sub-text">{{item1.menuName}}</span>
 						        </a>
-						        <span class="sub-text" v-else>{{item1.name}}</span>
+						        <span class="sub-text" v-else>{{item1.menuName}}</span>
 				          </template>
 									<template v-for="(item2, y) in item1.children">
 										<t-submenu v-if="item2.children && item2.children.length" :name="x + '' +y" class="second-submenu">
 											<template slot="title">
-					            	<router-link :to="item2.path" v-if="item2.path">
-						            	<span class="sub-text">{{item2.name}}</span>
+					            	<router-link :to="{ path: item2.menuUrl}" v-if="item2.rightTag === tag && item2.menuUrl">
+						            	<span class="sub-text">{{item2.menuName}}</span>
 								        </router-link>
-								        <a :href="item2.link" target="_blank" v-else-if="item2.link">
-								        	<span class="sub-text">{{item2.name}}</span>
+								        <a :href="item2.rootUrl + item2.rootUrl" target="_blank" v-else-if="item2.rootUrl && item2.menuUrl && item2.rightTag !== tag">
+								        	<span class="sub-text">{{item2.menuName}}</span>
 								        </a>
-								        <span class="sub-text" v-else>{{item2.name}}</span>
+								        <span class="sub-text" v-else>{{item2.menuName}}</span>
 					            </template>
 					            <template v-for="(item3, z) in item2.children">
 					            	<t-submenu v-if="item3.children && item3.children.length" :name="x + '' + y + '' + z" :id="x + '' +y" class="second-submenu">
 					            		<t-menu-item v-for="(item4, w) in item3.children" :name="x + '' + y + '' + z + '' + w" :key="w" @click.native="getMenu(item4)" class="sec-item">
-							            	<router-link :to="item4.path" v-if="item4.path">
-								            	<span class="sub-text">{{item4.name}}</span>
+							            	<router-link :to="{ path: item4.menuUrl}" v-if="item4.rightTag === tag && item4.menuUrl">
+								            	<span class="sub-text">{{item4.menuName}}</span>
 										        </router-link>
-										        <a :href="item4.link" target="_blank" v-else-if="item4.link">
-										        	<span class="sub-text">{{item4.name}}</span>
+										        <a :href="item4.rootUrl + item4.rootUrl" target="_blank" v-else-if="item4.rootUrl && item4.menuUrl && item4.rightTag !== tag">
+										        	<span class="sub-text">{{item4.menuName}}</span>
 										        </a>
-										        <span class="sub-text" v-else>{{item4.name}}</span>
+										        <span class="sub-text" v-else>{{item4.menuName}}</span>
 							            </t-menu-item>
 					            	</t-submenu>
 						            <t-menu-item :name="x + '' + y + '' + z" :key="z" @click.native="getMenu(item3)" class="sec-item" v-else>
-						            	<router-link :to="item3.path" v-if="item3.path">
-							            	<span class="sub-text">{{item3.name}}</span>
+						            	<router-link :to="{ path: item3.menuUrl}" v-if="item3.rightTag === tag && item3.menuUrl">
+							            	<span class="sub-text">{{item3.menuName}}</span>
 									        </router-link>
-									        <a :href="item3.link" target="_blank" v-else-if="item3.link">
-									        	<span class="sub-text">{{item3.name}}</span>
+									        <a :href="item3.rootUrl + item3.rootUrl" target="_blank" v-else-if="item3.rootUrl && item3.menuUrl && item3.rightTag !== tag">
+									        	<span class="sub-text">{{item3.menuName}}</span>
 									        </a>
-									        <span class="sub-text" v-else>{{item3.name}}</span>
+									        <span class="sub-text" v-else>{{item3.menuName}}</span>
 						            </t-menu-item>
 					            </template>
 										</t-submenu>
 										<t-menu-item :name="x + '' + y" v-else>
-											<router-link :to="item2.path" v-if="item2.path">
-					            	<span class="sub-text">{{item2.name}}</span>
+											<router-link :to="{ path: item2.menuUrl}" v-if="item2.rightTag === tag && item2.menuUrl">
+					            	<span class="sub-text">{{item2.menuName}}</span>
 							        </router-link>
-							        <a :href="item2.link" target="_blank" v-else-if="item2.link">
-							        	<span class="sub-text">{{item2.name}}</span>
+							        <a :href="item2.rootUrl + item2.rootUrl" target="_blank" v-else-if="item2.rootUrl && item2.menuUrl && item2.rightTag !== tag">
+							        	<span class="sub-text">{{item2.menuName}}</span>
 							        </a>
-							        <span class="sub-text" v-else>{{item2.name}}</span>
+							        <span class="sub-text" v-else>{{item2.menuName}}</span>
 										</t-menu-item>
 									</template>
 								</t-submenu>
 								<t-menu-item :name="x" v-else>
-									<t-icon :type="item1.iconType"></t-icon>
-									<router-link :to="item1.path" v-if="item1.path">
-			            	<span class="sub-text">{{item1.name}}</span>
+									<t-icon :type="item1.iconType" v-if="item1.iconType"></t-icon>
+									<t-avatar size="sm" bg-state="success" :text="item1.rightTag" :dot="false" v-else></t-avatar>
+					        <router-link :to="{ path: item1.menuUrl}" v-if="item1.rightTag === tag && item1.menuUrl">
+			            	<span class="sub-text">{{item1.menuName}}</span>
 					        </router-link>
-					        <a :href="item1.link" target="_blank" v-else-if="item1.link">
-					        	<span class="sub-text">{{item1.name}}</span>
+					        <a :href="item1.rootUrl + item1.rootUrl" target="_blank" v-else-if="item1.rootUrl && item1.menuUrl && item1.rightTag !== tag">
+					        	<span class="sub-text">{{item1.menuName}}</span>
 					        </a>
-					        <span class="sub-text" v-else>{{item1.name}}</span>
+					        <span class="sub-text" v-else>{{item1.menuName}}</span>
 								</t-menu-item>
 							</template>
 			    </t-menu>
@@ -175,6 +177,9 @@
 </template>
 <script>
 	import ClickoutSide from './clickoutside.js'
+	import SessionStorage from '../utils/sessionStorage.js'
+	import { transData } from '../utils/utils.js'
+	let sessionStorage = new SessionStorage ()
 	export default {
 		name: 'TFrame',
 		props: {
@@ -186,7 +191,8 @@
 			},
 			// logo 路由
 			logoRouter: {
-				type: Object
+				type: Object,
+				default: { path: '/'}
 			},
 			// 当前展开的menu
 			activeMenu: {
@@ -219,6 +225,24 @@
 			},
 			count: {
 				type: Number
+			},
+			/**
+			 * 服务调用实例
+			 */
+			instance: {
+				type: Object
+			},
+			/**
+			 * 登录相关的设置
+			 */
+			authorization: {
+				type: Object
+			},
+			/**
+			 * 当前服务的
+			 */
+			tag: {
+				type: String
 			}
 		},
 		data () {
@@ -230,7 +254,18 @@
         showMenu: true,
         needBackDrop: false,
         hideSlip: true,
-        accordion: true
+        accordion: true,
+        menu: []
+			}
+		},
+		computed: {
+			treeData () {
+				if (this.menuList && this.menuList.length) {
+					return this.menuList
+				} else if (this.menu && this.menu.length) {
+					return this.menu
+				}
+				return []
 			}
 		},
 		directives: {
@@ -297,6 +332,38 @@
 	      }
 	      return false
 			}
+		},
+		created () {
+			let accessToken = sessionStorage.get('access_token')
+  		let refreshToken = sessionStorage.get('refresh_token')
+  		if (!accessToken || !refreshToken) return
+  		if (this.menuList && this.menuList.length) return
+			// 获取menu数据
+			this.instance.get(this.authorization.menuUri).then(res => {
+				this.menu = transData(res.data, 'menuId', 'menuPid', 'children')
+			}).catch(res => {
+				/**
+				 * 处理相关错误的问题
+				 */
+				if (res) {
+			    switch (res.status) {
+			      /**
+			      * 判断相关的错误，例如判断 token 失效， 或者没有登录的情况
+			      */
+			      case 401:
+			      	let accessToken = sessionStorage.get('access_token')
+				  		let refreshToken = sessionStorage.get('refresh_token')
+				  		if (!accessToken || !refreshToken) return
+			        let msg = {
+			          client_id: this.authorization.client_id,
+			          redirect_uri: encodeURIComponent(this.authorization.redirect_uri),
+			          state: uuid(6, 16)
+			        }
+			        window.location.href = this.authorization.authorizeUri + '?client_id=' + msg.client_id + '&redirect_uri=' + msg.redirect_uri + '&response_type=code&scope=read&state=' + msg.state
+			        break
+			    }
+			  }
+			})
 		},
 		mounted () {
 			let that = this
