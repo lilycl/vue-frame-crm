@@ -11,7 +11,7 @@ export function requestInterceptor (config, authorization, tokenUri) {
   let accessToken = sessionStorage.get('access_token')
   let refreshToken = sessionStorage.get('refresh_token')
   if (accessToken && refreshToken) {
-    if (config.url.indexOf(tokenUri)) {
+    if (config.url.indexOf(tokenUri) !== -1) {
       config.headers.Authorization = 'Basic ' + Base64.encode(authorization.client_id + ':' + authorization.clientSecret)
     } else {
       config.headers.Authorization = 'Bearer ' + accessToken
@@ -30,6 +30,9 @@ export function handleResponseError (error, authorization) {
       * 判断相关的错误，例如判断 token 失效， 或者没有登录的情况
       */
       case 401:
+        let accessToken = sessionStorage.get('access_token')
+        let refreshToken = sessionStorage.get('refresh_token')
+        if (!accessToken && !refreshToken) break
         let msg = {
           client_id: authorization.client_id,
           redirect_uri: encodeURIComponent(authorization.redirect_uri),

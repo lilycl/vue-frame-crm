@@ -4,7 +4,7 @@
 import SessionStorage from '../utils/sessionStorage.js'
 import { getQuery, uuid } from '../utils/utils.js'
 
-export function beforeEach (to, from, next, authorization, cb) {
+export function beforeEach (to, from, next, authorization, requestInstance, cb) {
   let sessionStorage = new SessionStorage()
   let accessToken = sessionStorage.get('access_token')
   let refreshToken = sessionStorage.get('refresh_token')
@@ -19,7 +19,23 @@ export function beforeEach (to, from, next, authorization, cb) {
         /**
          *  这里需要去请求token的值
          */
-        cb(code, state, next, sessionStorage, uuid(6, 16))
+        // cb(code, state, next, sessionStorage, uuid(6, 16))
+        requestInstance.post(authorization.tokenUri + '?code=' + code + '&state=' + state +
+          '&grant_type=authorization_code' + '&client_id=' + authorization.client_id + '&redirect_uri=' + encodeURIComponent(authorization.redirect_uri))
+        .then(res => {
+          sessionStorage.set('access_token', res.data.access_token, res.data.expires_in * 1000)
+          sessionStorage.set('refresh_token', res.data.refresh_token, res.data.expires_in * 1000)
+          window.location.search = ''
+          next()
+        }).catch(res => {
+          let msg = {
+            client_id: authorization.client_id,
+            redirect_uri: encodeURIComponent(authorization.redirect_uri),
+            state: uuid(6, 16)
+          }
+          window.location.href = authorization.authorizeUri + '?client_id=' + msg.client_id + '&redirect_uri=' + msg.redirect_uri + '&response_type=code&scope=read&state=' + msg.state
+          next()
+        })
       } else {
         let msg = {
           client_id: authorization.client_id,
@@ -27,7 +43,6 @@ export function beforeEach (to, from, next, authorization, cb) {
           state: uuid(6, 16)
         }
         window.location.href = authorization.authorizeUri + '?client_id=' + msg.client_id + '&redirect_uri=' + msg.redirect_uri + '&response_type=code&scope=read&state=' + msg.state
-        next()
       }
     }
   } else {

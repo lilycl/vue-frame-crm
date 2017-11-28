@@ -26,3 +26,50 @@ export function getQuery (name) {
   }
   return result[1]
 }
+
+/**
+ * 先将数组转化成有序数组
+ * json格式转树状结构
+ * @param   {json}      json数据
+ * @param   {String}    id的字符串
+ * @param   {String}    父id的字符串
+ * @param   {String}    children的字符串
+ * @return  {Array}     数组
+ */
+export function transData (original, idField, pidField, childrenField) {
+  if (original && original.length) {
+    original.sort((a, b) => {
+      return a[idField] - b[idField]
+    })
+  }
+  let result = []
+  let hash = {}
+  const id = idField
+  const pid = pidField
+  const children = childrenField
+  let i = 0
+  let j = 0
+  let len = original.length
+  /**
+   * 第一层将对象数组转化成JSON数据
+   */
+  for (; i < len; i++) {
+    if (!hash[original[i][id]]) {
+      hash[original[i][id]] = original[i]
+    }
+  }
+  for (; j < len; j++) {
+    let aVal = original[j]
+    let hashVP = hash[aVal[pid]]
+    if (hashVP) {
+      !hashVP[children] && (hashVP[children] = [])
+      hashVP[children].push(aVal)
+    } else {
+      result.push(aVal)
+    }
+  }
+  result.sort((a, b) => {
+    return a[idField] - b[idField]
+  })
+  return result
+}
