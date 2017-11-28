@@ -57,7 +57,7 @@
   }
   .slipbox__content {
     position: absolute;
-    min-width: 350px;
+    width: 350px;
     top: 60px;
     left: auto;
     right: 0;
@@ -206,6 +206,47 @@
   background: #fff;
   opacity: 0;
   visibility: hidden;
+}
+
+.notice-wrap{
+  clear: both;
+  height: 60px;
+  border-left: 2px solid transparent;
+  span{
+    display: inline-block;
+  }
+  .nw-l{
+      width: 78px;
+      padding: 10px;
+      vertical-align: middle;
+      text-align: center;
+  }
+  .nw-r{
+    vertical-align: middle;
+    padding: 10px;
+    width: 260px;
+    p{
+      margin-bottom: 0px;
+    }
+    .nw-r-title{
+      font-size: 14px;
+      color: #455155;
+      line-height: 21px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .nw-r-time{
+      font-size: 12px;
+      color: #455155;
+      line-height: 18px;
+      opacity: 0.65;
+    }
+  }
+}
+.notice-active{
+  border-left: 2px solid #8fc320;
+  background: #f5f9ea;
 }
 
 @media (min-width: 1200px) {

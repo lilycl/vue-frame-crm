@@ -161,7 +161,29 @@
 	    		<div class="slipbox__body">
 	    			<slot name="slipbox-body">
 			    		<t-tabs>
-					      <t-tab-panel label="System Informs" name="tab-1"></t-tab-panel>
+					      <t-tab-panel label="System Informs" name="tab-1">
+							  <div class="notice-wrap" :class="{'notice-active': isActive === 0}" @click="handleNoticeClick(0)">
+								  <span class="nw-l"><t-tag state='danger'>hot</t-tag></span>
+								  <span class="nw-r">
+									  <p class="nw-r-title">缴纳0元租赁使用高清电视机顶盒一台缴纳0元租赁使用高清电视机顶盒一台</p>
+									  <p class="nw-r-time">有效周期：2017-09-09 至 2020-09-09</p>
+								  </span>
+							  </div>
+							  <div class="notice-wrap" :class="{'notice-active': isActive === 1}" @click="handleNoticeClick(1)">
+								  <span class="nw-l"><t-tag state='info'>info</t-tag></span>
+								  <span class="nw-r">
+									  <p class="nw-r-title">缴纳0元租赁使用高清电视机顶盒一台缴纳0元租赁使用高清电视机顶盒一台</p>
+									  <p class="nw-r-time">有效周期：2017-09-09 至 2020-09-09</p>
+								  </span>
+							  </div>
+							  <div class="notice-wrap" :class="{'notice-active': isActive === 2}" @click="handleNoticeClick(2)">
+								  <span class="nw-l"><t-tag state='primary'>new</t-tag></span>
+								  <span class="nw-r">
+									  <p class="nw-r-title">缴纳0元租赁使用高清电视机顶盒一台缴纳0元租赁使用高清电视机顶盒一台</p>
+									  <p class="nw-r-time">有效周期：2017-09-09 至 2020-09-09</p>
+								  </span>
+							  </div>
+						  </t-tab-panel>
 					    </t-tabs>
 					  </slot>
 	    		</div>
@@ -223,27 +245,31 @@
 		},
 		data () {
 			return {
-        isOpen: true,
-        isOpenOnMinWin: true,
-        openPosition: 'down',
-        clientWidth: 1200,
-        showMenu: true,
-        needBackDrop: false,
-        hideSlip: true,
-        accordion: true
+				isOpen: true,
+				isOpenOnMinWin: true,
+				openPosition: 'down',
+				clientWidth: 1200,
+				showMenu: true,
+				needBackDrop: false,
+				hideSlip: true,
+				accordion: true,
+				isActive: 0
 			}
 		},
 		directives: {
 			ClickoutSide
 		},
 		methods: {
+			handleNoticeClick (index) {
+				this.isActive = index
+			},
 			closeMenuOnMinWin () {
 				this.isOpenOnMinWin = true
 			},
 			openOrClose () {
 				this.isOpen = !this.isOpen
-        this.isOpenOnMinWin = false
-        if (this.clientWidth >= 1200 && !this.isOpen) {
+				this.isOpenOnMinWin = false
+				if (this.clientWidth >= 1200 && !this.isOpen) {
 					this.openPosition = 'right'
 				} else {
 					this.openPosition = 'down'
