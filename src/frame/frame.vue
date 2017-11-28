@@ -1,4 +1,5 @@
 <template>
+	<!--  -->
 	<div class="layout layout--one-screen bg-gray-lightest-5">
 		<div :class="['menu-backdrop d-xl-none',{'show': isOpenOnMinWin === false}]" @click="closeMenuOnMinWin"></div>
 		<div :class="['layout-sidebar',{'layout-sidebar--folded': isOpen === false},{'show': isOpenOnMinWin === false}]">
@@ -15,10 +16,10 @@
 						<img :src="imgMin" alt="" class="layout-logo-min-img"/>
 					</span>
 				</slot>
-      	<a href="javascript:;" class="d-none d-xl-block thumb-icon" v-if="showMenu">
-      		<t-icon type="menu" class="text-xxl text-black" @click.native="openOrClose" title="收起菜单"></t-icon>
-      	</a>
-      </div>
+				<a href="javascript:;" class="d-none d-xl-block thumb-icon" v-if="showMenu">
+					<t-icon type="menu" class="text-xxl text-black" @click.native="openOrClose" title="收起菜单"></t-icon>
+				</a>
+			</div>
 			<div :class="['layout-menu', {'menu--folded': isOpen === false}, {'menu--fold--show': clientWidth > 1200}, {'menu--fold--min': clientWidth <= 1199}]">
 				<slot name="frame-menu">
 					<t-menu
@@ -164,7 +165,7 @@
 	    			<slot name="slipbox-body">
 			    		<t-tabs>
 					      <t-tab-panel label="System Informs" name="tab-1">
-							  <div class="notice-wrap" :class="{'notice-active': isActive === 0}" @click="handleNoticeClick(0)">
+							  <div class="notice-wrap" :class="{'notice-active': isActive === 0}" @click="handleNoticeClick(0)" style="margin-top:6px;">
 								  <span class="nw-l"><t-tag state='danger'>hot</t-tag></span>
 								  <span class="nw-r">
 									  <p class="nw-r-title">缴纳0元租赁使用高清电视机顶盒一台缴纳0元租赁使用高清电视机顶盒一台</p>
@@ -179,7 +180,7 @@
 								  </span>
 							  </div>
 							  <div class="notice-wrap" :class="{'notice-active': isActive === 2}" @click="handleNoticeClick(2)">
-								  <span class="nw-l"><t-tag state='primary'>new</t-tag></span>
+								  <span class="nw-l"><t-tag state='success'>new</t-tag></span>
 								  <span class="nw-r">
 									  <p class="nw-r-title">缴纳0元租赁使用高清电视机顶盒一台缴纳0元租赁使用高清电视机顶盒一台</p>
 									  <p class="nw-r-time">有效周期：2017-09-09 至 2020-09-09</p>
@@ -195,7 +196,11 @@
         <router-view></router-view>
       </div>
     </div>
+	<div class="slide-wrap-content" :class="[{'slideWrapClose': hideSlideWrapSlip}]">
+		<t-icon type="close" size="36" class="icon-close mr-5 mt-3" @click.native="handleClickClose"></t-icon>
 	</div>
+	</div>
+	
 </template>
 <script>
 	import ClickoutSide from './clickoutside.js'
@@ -280,9 +285,10 @@
 				showMenu: true,
 				needBackDrop: false,
 				hideSlip: true,
+				hideSlideWrapSlip:true,
 				accordion: true,
 				isActive: 0,
-        		menu: []
+				menu: []
 			}
 		},
 		computed: {
@@ -299,8 +305,15 @@
 			ClickoutSide
 		},
 		methods: {
+			handleClickClose (){
+
+			},
 			handleNoticeClick (index) {
 				this.isActive = index
+				this.hideSlideWrapSlip = false
+			},
+			handleClickClose(){
+				this.hideSlideWrapSlip = true
 			},
 			closeMenuOnMinWin () {
 				this.isOpenOnMinWin = true
@@ -355,13 +368,17 @@
 	      }
 	      return false
 	    },
-			handleClickoutSide (e) {
-				if (this._ischild(e.target) && (!e.target.classList.contains('slipbox__content') || !this._isChildNode(e.target, 'slipbox__content'))) {
-	        this.hideSlipbox()
-	        return true
-	      }
-	      return false
-			}
+		handleClickoutSide (e) {
+			if (this._ischild(e.target) 
+			&& (!e.target.classList.contains('slipbox__content') 
+			|| !this._isChildNode(e.target, 'slipbox__content'))
+			&& !this._isChildNode(e.target, 'slide-wrap-content') 
+			) {
+		this.hideSlipbox()
+		return true
+		}
+		return false
+		}
 		},
 		created () {
 			let accessToken = sessionStorage.get('access_token')
