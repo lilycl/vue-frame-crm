@@ -68,5 +68,8 @@ export function transData (original, idField, pidField, childrenField) {
       result.push(aVal)
     }
   }
+  result.sort((a, b) => {
+    return a[idField] - b[idField]
+  })
   return result
 }

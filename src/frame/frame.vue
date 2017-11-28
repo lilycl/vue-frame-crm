@@ -37,7 +37,7 @@
 						        <router-link :to="{ path: item1.menuUrl}" v-if="item1.rightTag === tag && item1.menuUrl">
 				            	<span class="sub-text">{{item1.menuName}}</span>
 						        </router-link>
-						        <a :href="item1.rootUrl + item1.rootUrl" target="_blank" v-else-if="item1.rootUrl && item1.menuUrl && item1.rightTag !== tag">
+						        <a :href="item1.systemUrl + item1.systemUrl" target="_blank" v-else-if="item1.systemUrl && item1.menuUrl && item1.rightTag !== tag">
 						        	<span class="sub-text">{{item1.menuName}}</span>
 						        </a>
 						        <span class="sub-text" v-else>{{item1.menuName}}</span>
@@ -48,7 +48,7 @@
 					            	<router-link :to="{ path: item2.menuUrl}" v-if="item2.rightTag === tag && item2.menuUrl">
 						            	<span class="sub-text">{{item2.menuName}}</span>
 								        </router-link>
-								        <a :href="item2.rootUrl + item2.rootUrl" target="_blank" v-else-if="item2.rootUrl && item2.menuUrl && item2.rightTag !== tag">
+								        <a :href="item2.systemUrl + item2.systemUrl" target="_blank" v-else-if="item2.systemUrl && item2.menuUrl && item2.rightTag !== tag">
 								        	<span class="sub-text">{{item2.menuName}}</span>
 								        </a>
 								        <span class="sub-text" v-else>{{item2.menuName}}</span>
@@ -59,7 +59,7 @@
 							            	<router-link :to="{ path: item4.menuUrl}" v-if="item4.rightTag === tag && item4.menuUrl">
 								            	<span class="sub-text">{{item4.menuName}}</span>
 										        </router-link>
-										        <a :href="item4.rootUrl + item4.rootUrl" target="_blank" v-else-if="item4.rootUrl && item4.menuUrl && item4.rightTag !== tag">
+										        <a :href="item4.systemUrl + item4.systemUrl" target="_blank" v-else-if="item4.systemUrl && item4.menuUrl && item4.rightTag !== tag">
 										        	<span class="sub-text">{{item4.menuName}}</span>
 										        </a>
 										        <span class="sub-text" v-else>{{item4.menuName}}</span>
@@ -69,7 +69,7 @@
 						            	<router-link :to="{ path: item3.menuUrl}" v-if="item3.rightTag === tag && item3.menuUrl">
 							            	<span class="sub-text">{{item3.menuName}}</span>
 									        </router-link>
-									        <a :href="item3.rootUrl + item3.rootUrl" target="_blank" v-else-if="item3.rootUrl && item3.menuUrl && item3.rightTag !== tag">
+									        <a :href="item3.systemUrl + item3.systemUrl" target="_blank" v-else-if="item3.systemUrl && item3.menuUrl && item3.rightTag !== tag">
 									        	<span class="sub-text">{{item3.menuName}}</span>
 									        </a>
 									        <span class="sub-text" v-else>{{item3.menuName}}</span>
@@ -80,7 +80,7 @@
 											<router-link :to="{ path: item2.menuUrl}" v-if="item2.rightTag === tag && item2.menuUrl">
 					            	<span class="sub-text">{{item2.menuName}}</span>
 							        </router-link>
-							        <a :href="item2.rootUrl + item2.rootUrl" target="_blank" v-else-if="item2.rootUrl && item2.menuUrl && item2.rightTag !== tag">
+							        <a :href="item2.systemUrl + item2.systemUrl" target="_blank" v-else-if="item2.systemUrl && item2.menuUrl && item2.rightTag !== tag">
 							        	<span class="sub-text">{{item2.menuName}}</span>
 							        </a>
 							        <span class="sub-text" v-else>{{item2.menuName}}</span>
@@ -93,7 +93,7 @@
 					        <router-link :to="{ path: item1.menuUrl}" v-if="item1.rightTag === tag && item1.menuUrl">
 			            	<span class="sub-text">{{item1.menuName}}</span>
 					        </router-link>
-					        <a :href="item1.rootUrl + item1.rootUrl" target="_blank" v-else-if="item1.rootUrl && item1.menuUrl && item1.rightTag !== tag">
+					        <a :href="item1.systemUrl + item1.systemUrl" target="_blank" v-else-if="item1.systemUrl && item1.menuUrl && item1.rightTag !== tag">
 					        	<span class="sub-text">{{item1.menuName}}</span>
 					        </a>
 					        <span class="sub-text" v-else>{{item1.menuName}}</span>
@@ -192,7 +192,11 @@
 			// logo 路由
 			logoRouter: {
 				type: Object,
-				default: { path: '/'}
+				default: () => {
+					return {
+						path: '/'
+					}
+				}
 			},
 			// 当前展开的menu
 			activeMenu: {
